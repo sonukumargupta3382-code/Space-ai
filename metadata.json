@@ -1,0 +1,5 @@
+{
+  "name": "Space ai",
+  "description": "A suite of AI-powered image tools including editor, generator, styler, vectorizer, upscaler, and background remover.",
+  "requestFramePermissions": []
+}
