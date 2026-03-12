@@ -1,10 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+import { Sparkles, ArrowLeft, Download } from 'lucide-react';
 
 export default function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  
+  const [isApp, setIsApp] = useState(false);
+
+  useEffect(() => {
+    // Check if running as a PWA/TWA (installed) or custom WebView User-Agent
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isCustomWebView = navigator.userAgent.includes('SpaceAI-App');
+    setIsApp(isStandalone || isCustomWebView);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 flex flex-col relative">
@@ -30,7 +40,17 @@ export default function Layout() {
               )}
             </div>
             
-            {/* Right side items removed as requested */}
+            <div className="flex items-center gap-4">
+              {!isApp && (
+                <button 
+                  onClick={() => alert('Download APK functionality will go here!')}
+                  className="flex items-center gap-1.5 text-sm font-medium bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-full hover:bg-indigo-100 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Download App</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
